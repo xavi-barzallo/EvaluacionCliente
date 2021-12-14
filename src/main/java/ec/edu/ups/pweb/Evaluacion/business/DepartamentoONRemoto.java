@@ -6,4 +6,5 @@ public interface DepartamentoONRemoto {
 
 	public void insertar (Departamento p) throws Exception ;
 	public void actualizar(Departamento op);
+	public Departamento getBuscarDep(int codigoDep);
 }

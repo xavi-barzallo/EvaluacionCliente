@@ -126,7 +126,7 @@ public class InterfazDepartamento extends JFrame {
 		contentPane.add(txtNumeroCuarto);
 		txtNumeroCuarto.setColumns(10);
 		
-		JLabel lblNewLabel_2 = new JLabel("Numero de Piso:");
+		JLabel lblNewLabel_2 = new JLabel("Numero de Pisos:");
 		lblNewLabel_2.setBounds(32, 111, 123, 13);
 		contentPane.add(lblNewLabel_2);
 		
@@ -145,7 +145,12 @@ public class InterfazDepartamento extends JFrame {
 		contentPane.add(btnIngresar);
 		
 		btnActualizar = new JButton("Actualizar");
-		btnActualizar.setBounds(176, 149, 85, 21);
+		btnActualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				actualizarDep();
+			}
+		});
+		btnActualizar.setBounds(176, 149, 107, 21);
 		contentPane.add(btnActualizar);
 		
 		lblNewLabel_3 = new JLabel("Codigo:");
@@ -160,12 +165,38 @@ public class InterfazDepartamento extends JFrame {
 		btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				buscarDepartamento();
 			}
 		});
 		btnBuscar.setBounds(319, 64, 85, 21);
 		contentPane.add(btnBuscar);
 	}
 	
+	public void buscarDepartamento() {
+		int codigoDep= Integer.parseInt(txtCodigo.getText());
+		Departamento departamento= this.depRemote.getBuscarDep(codigoDep);
+		txtDireccion.setText(departamento.getDireccion());
+		txtNumeroCuarto.setText(departamento.getNumeroCuartos()+"");
+		txtNumeroPiso.setText(departamento.getNumeroPiso()+"");
+		
+	}
+	
+	public void actualizarDep() {
+		String direccionD= txtDireccion.getText();
+		int numeroCuartoD= Integer.parseInt(txtNumeroCuarto.getText());
+		int numeroPisoD= Integer.parseInt(txtNumeroPiso.getText());
+		int codigoP= Integer.parseInt(txtCodigo.getText());
+		Departamento de = new Departamento();
+		de.setDireccion(direccionD);
+		de.setNumeroCuartos(numeroCuartoD);
+		de.setNumeroPiso(numeroPisoD);
+		de.setCodigo(codigoP);
+		try {
+			depRemote.actualizar(de);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 }
